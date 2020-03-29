@@ -5,10 +5,14 @@ import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
+import { useRooms } from '../../hooks'
 
 const useStyles = makeStyles({
   root: {
-    minWidth: 275
+    minWidth: 275,
+    float: 'left',
+    width: '25%',
+    paddingBottom: '20px'
   },
   bullet: {
     display: 'inline-block',
@@ -24,30 +28,25 @@ const useStyles = makeStyles({
 })
 
 export default function Room () {
+  const { rooms } = useRooms()
   const classes = useStyles()
-  const bull = <span className={classes.bullet}>•</span>
 
   return (
-    <Card className={classes.root}>
-      <CardContent>
-        <Typography className={classes.title} color='textSecondary' gutterBottom>
-                    Word of the Day
-        </Typography>
-        <Typography variant='h5' component='h2'>
-                    be{bull}nev{bull}o{bull}lent
-        </Typography>
-        <Typography className={classes.pos} color='textSecondary'>
-                    adjective
-        </Typography>
-        <Typography variant='body2' component='p'>
-                    well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size='small'>Learn More</Button>
-      </CardActions>
-    </Card>
+    rooms &&
+    rooms.map(room => (
+      <Card className={classes.root} key={room.id}>
+        <CardContent>
+          <Typography className={classes.title} color='textSecondary' gutterBottom>
+            Room {room.id}
+          </Typography>
+          <Typography variant='h5' component='h2'>
+            {room.name}
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button size='small'>Join Room</Button>
+        </CardActions>
+      </Card>
+    ))
   )
 }
